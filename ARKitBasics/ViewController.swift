@@ -53,8 +53,27 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         
         // Show debug UI to view performance metrics (e.g. frames per second).
         sceneView.showsStatistics = true
+        
+        sceneView.autoenablesDefaultLighting = true
     }
 	
+    private func makeBox(color: UIColor, _ width:CGFloat, _ height:CGFloat, _ length:CGFloat) -> SCNNode
+    {
+        let geometry:SCNGeometry = SCNBox(width: width, height: height, length: length, chamferRadius: 0.0)
+        let redMaterial = SCNMaterial()
+        redMaterial.diffuse.contents = color
+        
+        geometry.materials = [redMaterial]
+        
+        let node = SCNNode(geometry: geometry)
+        return node
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        let box = makeBox(color: UIColor.green, 0.3, 0.3, 0.3)
+        box.position = SCNVector3(0,0,-1)
+        box.rotation = SCNVector4(0,1,0,Float.pi / 6)
+        sceneView.scene.rootNode.addChildNode(box)
+    }
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
