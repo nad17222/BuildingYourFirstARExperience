@@ -68,6 +68,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         let node = SCNNode(geometry: geometry)
         return node
     }
+    
+    private func makeSphere(color: UIColor, _ radius: CGFloat) -> SCNNode
+    {
+        /*let geometry:SCNGeometry = SCNBox(width: width, height: height, length: length, chamferRadius: 0.0)
+        let redMaterial = SCNMaterial()
+        redMaterial.diffuse.contents = color
+        
+        geometry.materials = [redMaterial]
+        
+        let node = SCNNode(geometry: geometry)
+        return node*/
+    }
     override func viewWillAppear(_ animated: Bool) {
         let box = makeBox(color: UIColor.green, 0.3, 0.3, 0.3)
         box.position = SCNVector3(0,0,-1)
@@ -75,8 +87,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         sceneView.scene.rootNode.addChildNode(box)
         
         let spin = CABasicAnimation(keyPath: "rotation")
-        spin.fromValue = NSValue(SCNVector4(x: 0, y : 1, z: 0, w : 0 ))
-        spin.toValue = NSValue(SCNVector4(x : 0, y : 1, z : 0, w : Float.pi * 6))
+        spin.fromValue = NSValue(scnVector4: SCNVector4(x: 0, y : 1, z: 0, w : 0))
+        spin.toValue = NSValue(scnVector4: SCNVector4(x : 0, y : 1, z : 0, w : Float.pi * 2))
+        spin.duration = 5
+        spin.repeatCount = .infinity
+        box.addAnimation(spin, forKey: "spin around")
     }
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
@@ -111,6 +126,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
          changes in the plane anchor as plane estimation continues.
         */
         node.addChildNode(planeNode)
+        
+        let box1 = makeBox(color: UIColor.red, 0.3, 0.3, 0.3)
+        box1.position = SCNVector3(0,0.15,0)
+        node.addChildNode(box1)
+        
+        let box2 = makeBox(color: UIColor.red, 0.3, 0.3, 0.3)
+        box2.position = SCNVector3(0,0.15,0)
+        node.addChildNode(box2)
+        
+        let box3 = makeBox(color: UIColor.red, 0.3, 0.3, 0.3)
+        box3.position = SCNVector3(0,0.15,0)
+        node.addChildNode(box3)
+        
+        let box4 = makeBox(color: UIColor.red, 0.3, 0.3, 0.3)
+        box4.position = SCNVector3(0,0.15,0)
+        node.addChildNode(box4)
 	}
 
     /// - Tag: UpdateARContent
