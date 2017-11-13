@@ -73,6 +73,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         box.position = SCNVector3(0,0,-1)
         box.rotation = SCNVector4(0,1,0,Float.pi / 6)
         sceneView.scene.rootNode.addChildNode(box)
+        
+        let spin = CABasicAnimation(keyPath: "rotation")
+        spin.fromValue = NSValue(SCNVector4(x: 0, y : 1, z: 0, w : 0 ))
+        spin.toValue = NSValue(SCNVector4(x : 0, y : 1, z : 0, w : Float.pi * 6))
     }
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
