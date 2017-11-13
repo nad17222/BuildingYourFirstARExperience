@@ -69,17 +69,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         return node
     }
     
-    private func makeSphere(color: UIColor, _ radius: CGFloat) -> SCNNode
+    /*private func makeSphere(color: UIColor, _ radius: CGFloat) //-> SCNNode
     {
-        /*let geometry:SCNGeometry = SCNBox(width: width, height: height, length: length, chamferRadius: 0.0)
+        let geometry:SCNGeometry = SCNBox(width: width, height: height, length: length, chamferRadius: 0.0)
         let redMaterial = SCNMaterial()
         redMaterial.diffuse.contents = color
         
         geometry.materials = [redMaterial]
         
         let node = SCNNode(geometry: geometry)
-        return node*/
-    }
+        return node
+    }*/
     override func viewWillAppear(_ animated: Bool) {
         let box = makeBox(color: UIColor.green, 0.3, 0.3, 0.3)
         box.position = SCNVector3(0,0,-1)
