@@ -56,10 +56,34 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         
         sceneView.autoenablesDefaultLighting = true
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        sceneView.delegate = self
+        sceneView.showsStatistics = true
+        
+       // let scene = SCNScene()
+     //  let position = SCNVector3(0, 0, -0.3)
+      //  let globe = makeGlobe(at: position)
+      //  scene.rootNode.addChildNode(globe)
+        //sceneView.scene = scene
+    }
 	
     private func makeBox(color: UIColor, _ width:CGFloat, _ height:CGFloat, _ length:CGFloat) -> SCNNode
     {
         let geometry:SCNGeometry = SCNBox(width: width, height: height, length: length, chamferRadius: 0.0)
+        let redMaterial = SCNMaterial()
+        redMaterial.diffuse.contents = color
+        
+        geometry.materials = [redMaterial]
+        
+        let node = SCNNode(geometry: geometry)
+        return node
+    }
+    private func makePyramid(color: UIColor, _ width:CGFloat, _ height:CGFloat, _ length:CGFloat) -> SCNNode
+    {
+        let geometry:SCNGeometry = SCNPyramid(width: width, height: height, length: length)
         let redMaterial = SCNMaterial()
         redMaterial.diffuse.contents = color
         
@@ -92,6 +116,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         spin.duration = 5
         spin.repeatCount = .infinity
         box.addAnimation(spin, forKey: "spin around")
+        
+        let pyramid = makePyramid(color: UIColor.red, 0.3, 0.5, 0.4)
+        pyramid.position = SCNVector3(0,0,-1)
+        pyramid.rotation = SCNVector4(0,1,0,Float.pi / 6)
+        sceneView.scene.rootNode.addChildNode(pyramid)
+        
+        let spin1 = CABasicAnimation(keyPath: "rotation")
+        spin1.fromValue = NSValue(scnVector4: SCNVector4(x: 0, y : 1, z: 0, w : 0))
+        spin1.toValue = NSValue(scnVector4: SCNVector4(x : 0, y : 1, z : 0, w : Float.pi * 2))
+        spin1.duration = 5
+        spin1.repeatCount = .infinity
+        pyramid.addAnimation(spin, forKey: "spin around")
+        
+        let scene = SCNScene()
+        let position = SCNVector3(0, 0, -0.3)
+        let globe = makeGlobe(at: position)
+        scene.rootNode.addChildNode(globe)
+        sceneView.scene = scene
+    }
+    
+    private func makeGlobe(at position: SCNVector3) -> SCNNode
+    {
+        let sphere = SCNSphere(radius: 0.1)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIImage(named: "earth.jpeg")
+        sphere.firstMaterial = material
+        let node = SCNNode(geometry: sphere)
+        node.position = position
+        return node
     }
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
